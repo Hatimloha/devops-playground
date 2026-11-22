@@ -57,7 +57,7 @@ jobs:
           - name: Docker container create and run
             run: |
               docker run -d --name frontend \
-                -p 3000:3000 \
+                -p 80:80 \
                 -v myvol:/app \
                 --network=mynet \
                 hatimlohawala/frontend:v1
