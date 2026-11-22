@@ -1,4 +1,4 @@
-name: frontend-build
+name: frontend-cicd
 
 on:
     push: 
@@ -31,3 +31,38 @@ jobs:
               
             - name: docker push
               run: docker push hatimlohawala/frontend:v1
+
+    container-deploy:
+        runs-on: self-hosted
+        needs: docker-image
+
+        steps:
+          - name: Docker container check
+            run: docker ps -a
+
+          - name: Docker volume delete & create
+            run: |
+                docker volume rm -f myvol 2>/dev/null || true
+                docker volume create myvol
+
+          - name: Docker network create
+            run: |
+                docker network rm -f mynet 2>/dev/null || true
+                docker network create mynet
+
+          - name: Docker existing container remove
+            run: docker rm -f frontend
+
+          - name: Docker container create and run
+            run: |
+              docker run -d --name frontend \
+                -p 3000:3000 \
+                -v $(pwd):/app \
+                --network=mynet \
+                hatimlohawala/frontend:v1
+
+          - name: Docker container check
+            run: docker ps -a
+
+          - name: compute check 
+            run: docker top frontend
