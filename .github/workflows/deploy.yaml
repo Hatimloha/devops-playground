@@ -1,15 +1,15 @@
-name: frontend-ci-cd
+name: frontend-deploy
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-
+    workflow_run: 
+        workflows: ["frontend-build"]
+        types:
+            - completed
+        branches: 
+            - main
 jobs:
   container-deploy:
     runs-on: self-hosted
-    needs: docker-image
 
     steps:
       - name: Docker container check

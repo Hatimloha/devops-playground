@@ -1,4 +1,4 @@
-name: frontend-ci-cd
+name: frontend-build
 
 on:
     push: 
