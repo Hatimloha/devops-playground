@@ -45,7 +45,7 @@ jobs:
                 docker volume rm -f myvol 2>/dev/null || true
                 docker volume create myvol
 
-          - name: Docker network create
+          - name: Docker network delete & create
             run: |
                 docker network rm -f mynet 2>/dev/null || true
                 docker network create mynet
