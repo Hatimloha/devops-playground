@@ -21,9 +21,12 @@ jobs:
       - name: Docker network create
         run: docker network create mynet
 
+      - name: Docker existing container remove
+        run: docker rm -f frontend
+
       - name: Docker container create and run
         run: |
-          docker run -d --name fronted \
+          docker run -d --name frontend \
             -p 3000:3000 \
             -v $(pwd):/app \
             --network=mynet \
