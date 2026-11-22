@@ -16,6 +16,9 @@ jobs:
             - name: repo fetch
               uses: actions/checkout@v4
 
+            - name: delete existing docker images
+              run: docker rmi -f hatimlohawala/frontend:v1
+
             - name: docker build
               run: docker build -t hatimlohawala/frontend:v1 .
 
