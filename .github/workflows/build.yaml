@@ -40,6 +40,9 @@ jobs:
           - name: Docker container check
             run: docker ps -a
 
+          - name: Docker existing container remove
+            run: docker rm -f frontend 2>/dev/null || true
+
           - name: Docker volume delete & create
             run: |
                 docker volume rm -f myvol 2>/dev/null || true
@@ -50,14 +53,12 @@ jobs:
                 docker network rm -f mynet 2>/dev/null || true
                 docker network create mynet
 
-          - name: Docker existing container remove
-            run: docker rm -f frontend
 
           - name: Docker container create and run
             run: |
               docker run -d --name frontend \
                 -p 3000:3000 \
-                -v $(pwd):/app \
+                -v myvol:/app \
                 --network=mynet \
                 hatimlohawala/frontend:v1
 
